@@ -115,6 +115,7 @@ else:
 def ff(arg):
     if type(arg) == list:
         pass #  сделать ничего
+        pass
     else:
         print('ti debil, pereday spisor')
 

@@ -28,6 +28,10 @@ class RationalNumber:
         return RationalNumber((self.arg1 * second_number.arg2 + second_number.arg1 * self.arg2),
                               (second_number.arg2 * self.arg2))
 
+    def __sub__(self, second_number):
+        return RationalNumber((self.arg1 * second_number.arg2 - second_number.arg1 * self.arg2),
+                              (second_number.arg2 * self.arg2))
+
 
 def test_equality_unnormalized():
     a1 = RationalNumber(1, 2)

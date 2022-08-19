@@ -41,6 +41,9 @@ class RationalNumber:
     def __lt__(self, other):
         return RationalNumber((self.arg1 / self.arg2) < (other.arg1 / other.arg2))
 
+    def __le__(self, other):
+        return RationalNumber((self.arg1 / self.arg2) <= (other.arg1 / other.arg2))
+
 
 def test_equality_unnormalized():
     a1 = RationalNumber(1, 2)
@@ -88,3 +91,22 @@ def test_lt_check_result():
     a1 = RationalNumber(3, 5)
     a2 = RationalNumber(4, 9)
     assert type(a1 < a2) == RationalNumber and a1 < a2
+
+
+def test_le_check_result():
+    a1 = RationalNumber(5, 5)
+    a2 = RationalNumber(9, 9)
+    assert type(a1 <= a2) == RationalNumber and a1 <= a2
+
+
+def test_gt_check_result():
+    a1 = RationalNumber(5, 10)
+    a2 = RationalNumber(4, 9)
+    assert type(a1 > a2) == RationalNumber and a1 > a2
+
+
+def test_ge_check_result():
+    a1 = RationalNumber(10, 10)
+    a2 = RationalNumber(3, 3)
+    assert type(a1 >= a2) == RationalNumber and a1 >= a2
+

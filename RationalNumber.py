@@ -35,6 +35,7 @@ class RationalNumber:
     def __mul__(self, second_number):
         return RationalNumber((self.arg1 * second_number.arg1), (self.arg2 * second_number.arg2))
 
+
 def test_equality_unnormalized():
     a1 = RationalNumber(1, 2)
     a2 = RationalNumber(2, 4)
@@ -69,3 +70,9 @@ def test_mul_check_result():
     a1 = RationalNumber(3, 4)
     a2 = RationalNumber(5, 7)
     assert type(a1 * a2) == RationalNumber and a1 * a2 == RationalNumber(15, 28)
+
+
+def test_truediv_check_result():
+    a1 = RationalNumber(3, 5)
+    a2 = RationalNumber(4, 9)
+    assert type(a1 / a2) == RationalNumber and a1 / a2 == RationalNumber(27, 20)

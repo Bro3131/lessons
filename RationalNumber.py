@@ -39,18 +39,14 @@ class RationalNumber:
         return RationalNumber((self.arg1 * second_number.arg2), (self.arg2 * second_number.arg1))
 
     def __lt__(self, other):
-        gcd1 = euclid_algorithm(self.arg1, self.arg2)
-        gcd2 = euclid_algorithm(other.arg1, other.arg2)
-        numerator1, denominator1 = self.arg1 // gcd1, self.arg2 // gcd1
-        numerator2, denominator2 = other.arg1 // gcd2, other.arg2 // gcd2
-        return numerator1 < numerator2
+        first = self.arg1 * other.arg2
+        second = other.arg1 * self.arg2
+        return first <= second
 
     def __le__(self, other):
-        gcd1 = euclid_algorithm(self.arg1, self.arg2)
-        gcd2 = euclid_algorithm(other.arg1, other.arg2)
-        numerator1, denominator1 = self.arg1 // gcd1, self.arg2 // gcd1
-        numerator2, denominator2 = other.arg1 // gcd2, other.arg2 // gcd2
-        return numerator1 <= numerator2
+        first = self.arg1 * other.arg2
+        second = other.arg1 * self.arg2
+        return first <= second
 
 
 def test_equality_unnormalized():
@@ -95,9 +91,9 @@ def test_truediv_check_result():
     assert type(a1 / a2) == RationalNumber and a1 / a2 == RationalNumber(27, 20)
 
 
-def test_lt_check_result():
-    a1 = RationalNumber(5, 10)
-    a2 = RationalNumber(4, 10)
+def test_lt_diff_denominators():
+    a1 = RationalNumber(3, 7)
+    a2 = RationalNumber(1, 2)
     assert type(a1 < a2) == bool and a1 < a2
 
 

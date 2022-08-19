@@ -61,3 +61,9 @@ def test_sub_check_result():
     a1 = RationalNumber(5, 6)
     a2 = RationalNumber(7, 12)
     assert type(a1 + a2) == RationalNumber and a1 - a2 == RationalNumber(3, 12)
+
+
+def test_mul_check_result():
+    a1 = RationalNumber(3, 4)
+    a2 = RationalNumber(5, 7)
+    assert type(a1 + a2) == RationalNumber and a1 * a2 == RationalNumber(15, 28)

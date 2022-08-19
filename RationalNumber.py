@@ -39,10 +39,18 @@ class RationalNumber:
         return RationalNumber((self.arg1 * second_number.arg2), (self.arg2 * second_number.arg1))
 
     def __lt__(self, other):
-        return RationalNumber((self.arg1 / self.arg2) < (other.arg1 / other.arg2))
+        gcd1 = euclid_algorithm(self.arg1, self.arg2)
+        gcd2 = euclid_algorithm(other.arg1, other.arg2)
+        numerator1, denominator1 = self.arg1 // gcd1, self.arg2 // gcd1
+        numerator2, denominator2 = other.arg1 // gcd2, other.arg2 // gcd2
+        return numerator1 < numerator2
 
     def __le__(self, other):
-        return RationalNumber((self.arg1 / self.arg2) <= (other.arg1 / other.arg2))
+        gcd1 = euclid_algorithm(self.arg1, self.arg2)
+        gcd2 = euclid_algorithm(other.arg1, other.arg2)
+        numerator1, denominator1 = self.arg1 // gcd1, self.arg2 // gcd1
+        numerator2, denominator2 = other.arg1 // gcd2, other.arg2 // gcd2
+        return numerator1 <= numerator2
 
 
 def test_equality_unnormalized():
@@ -88,25 +96,25 @@ def test_truediv_check_result():
 
 
 def test_lt_check_result():
-    a1 = RationalNumber(3, 5)
-    a2 = RationalNumber(4, 9)
-    assert type(a1 < a2) == RationalNumber and a1 < a2
+    a1 = RationalNumber(5, 10)
+    a2 = RationalNumber(4, 10)
+    assert type(a1 < a2) == bool and a1 < a2
 
 
 def test_le_check_result():
     a1 = RationalNumber(5, 5)
     a2 = RationalNumber(9, 9)
-    assert type(a1 <= a2) == RationalNumber and a1 <= a2
+    assert type(a1 <= a2) == bool and a1 <= a2
 
 
 def test_gt_check_result():
-    a1 = RationalNumber(5, 10)
+    a1 = RationalNumber(5, 8)
     a2 = RationalNumber(4, 9)
-    assert type(a1 > a2) == RationalNumber and a1 > a2
+    assert type(a1 > a2) == bool and a1 > a2
 
 
 def test_ge_check_result():
     a1 = RationalNumber(10, 10)
     a2 = RationalNumber(3, 3)
-    assert type(a1 >= a2) == RationalNumber and a1 >= a2
+    assert type(a1 >= a2) == bool and a1 >= a2
 

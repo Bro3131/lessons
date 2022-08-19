@@ -79,3 +79,9 @@ def test_truediv_check_result():
     a1 = RationalNumber(3, 5)
     a2 = RationalNumber(4, 9)
     assert type(a1 / a2) == RationalNumber and a1 / a2 == RationalNumber(27, 20)
+
+
+def test_lt_check_result():
+    a1 = RationalNumber(3, 5)
+    a2 = RationalNumber(4, 9)
+    assert type(a1 < a2) == RationalNumber and a1 < a2

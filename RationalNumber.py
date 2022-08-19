@@ -32,6 +32,8 @@ class RationalNumber:
         return RationalNumber((self.arg1 * second_number.arg2 - second_number.arg1 * self.arg2),
                               (second_number.arg2 * self.arg2))
 
+    def __mul__(self, second_number):
+        return RationalNumber((self.arg1 * second_number.arg1), (self.arg2 * second_number.arg2))
 
 def test_equality_unnormalized():
     a1 = RationalNumber(1, 2)
@@ -60,10 +62,10 @@ def test_add_check_result():
 def test_sub_check_result():
     a1 = RationalNumber(5, 6)
     a2 = RationalNumber(7, 12)
-    assert type(a1 + a2) == RationalNumber and a1 - a2 == RationalNumber(3, 12)
+    assert type(a1 - a2) == RationalNumber and a1 - a2 == RationalNumber(3, 12)
 
 
 def test_mul_check_result():
     a1 = RationalNumber(3, 4)
     a2 = RationalNumber(5, 7)
-    assert type(a1 + a2) == RationalNumber and a1 * a2 == RationalNumber(15, 28)
+    assert type(a1 * a2) == RationalNumber and a1 * a2 == RationalNumber(15, 28)

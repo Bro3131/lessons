@@ -41,3 +41,9 @@ def test_rational_repr():
 
 def test_rational_default():
     assert repr(RationalNumber()) == '0/1'
+
+
+def test_add_check_result():
+    a1 = RationalNumber(3, 4)
+    a2 = RationalNumber(5, 8)
+    assert type(a1 + a2) == RationalNumber and a1 + a2 == RationalNumber(44, 32)

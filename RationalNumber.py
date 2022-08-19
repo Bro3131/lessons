@@ -26,17 +26,20 @@ class RationalNumber:
 
     def __add__(self, second_number):
         return RationalNumber((self.arg1 * second_number.arg2 + second_number.arg1 * self.arg2),
-                              (second_number.arg2 * self.arg2))
+                              (second_number.arg2 * self.arg2)).norm()
 
     def __sub__(self, second_number):
         return RationalNumber((self.arg1 * second_number.arg2 - second_number.arg1 * self.arg2),
-                              (second_number.arg2 * self.arg2))
+                              (second_number.arg2 * self.arg2)).norm()
 
     def __mul__(self, second_number):
-        return RationalNumber((self.arg1 * second_number.arg1), (self.arg2 * second_number.arg2))
+        return RationalNumber((self.arg1 * second_number.arg1), (self.arg2 * second_number.arg2)).norm()
 
     def __truediv__(self, second_number):
-        return RationalNumber((self.arg1 * second_number.arg2), (self.arg2 * second_number.arg1))
+        return RationalNumber((self.arg1 * second_number.arg2), (self.arg2 * second_number.arg1)).norm()
+
+    def __float__(self):
+        return self.arg1 / self.arg2
 
     def __lt__(self, other):
         first = self.arg1 * other.arg2
@@ -47,6 +50,16 @@ class RationalNumber:
         first = self.arg1 * other.arg2
         second = other.arg1 * self.arg2
         return first <= second
+
+    def norm(self):
+        gcd = euclid_algorithm(self.arg1, self.arg2)
+        num, den = self.arg1 // gcd, self.arg2 // gcd
+        return RationalNumber(num, den)
+
+
+def test_norm():
+    r = RationalNumber(5, 10)
+    assert type(r.norm()) == RationalNumber and r.norm() == RationalNumber(1, 2)
 
 
 def test_equality_unnormalized():
@@ -113,4 +126,17 @@ def test_ge_check_result():
     a1 = RationalNumber(10, 10)
     a2 = RationalNumber(3, 3)
     assert type(a1 >= a2) == bool and a1 >= a2
+
+
+def test_add_many():
+    p = [2] * 10000
+    r = RationalNumber(1, 1)
+    for i in p:
+        r = RationalNumber(1, i) / r
+        assert r.arg1 < 100000 and r.arg2 < 100000
+
+
+def test_float_conversion():
+    r = RationalNumber(2, 4)
+    assert float(r) == 0.5
 

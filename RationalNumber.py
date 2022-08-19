@@ -38,6 +38,9 @@ class RationalNumber:
     def __truediv__(self, second_number):
         return RationalNumber((self.arg1 * second_number.arg2), (self.arg2 * second_number.arg1))
 
+    def __lt__(self, other):
+        return RationalNumber((self.arg1 / self.arg2) < (other.arg1 / other.arg2))
+
 
 def test_equality_unnormalized():
     a1 = RationalNumber(1, 2)

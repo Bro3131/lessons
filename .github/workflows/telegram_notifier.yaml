@@ -1,0 +1,14 @@
+name: TelegramNotifier
+
+on:
+  [ pull_request_review_comment, issues, issue_comment, pull_request_review ]
+
+jobs:
+  notifyTelegram:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "send default message"
+      uses: "appleboy/telegram-action@master"
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}

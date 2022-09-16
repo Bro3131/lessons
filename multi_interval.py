@@ -14,9 +14,9 @@ class MultiInterval:
                             raise RuntimeError('bro u got wrong types')
                 else:
                     raise RuntimeError('bro u got wrong types')
-        self.a = args
         # if type_check(args) is not None:
         type_check(args)
+        self.a = list(args)
 
     def norm(self):
         if len(self.a) >= 2:
@@ -46,6 +46,7 @@ class MultiInterval:
             self.a = r + ([_1] if _1 not in r else [])
         else:
             self.a = list(self.a)
+        return self
         # else:
         #     self.a = []
 
@@ -62,6 +63,10 @@ class MultiInterval:
             return [new_min, new_max] if new_min <= new_max else None
         other = [x for x in (get_intersection(y, z) for y in self.a for z in other.a) if x is not None]
         return other
+
+
+def test_intersection_of_norms():
+    assert repr(MultiInterval([1, 1]).norm() & MultiInterval([2, 2]).norm()) == '[]'
 
 
 def test_wrong_input():
@@ -87,54 +92,59 @@ def test_init_single():
 
 
 def test_init_double_non_intersecting():
-    assert repr(MultiInterval([0, 1], [2, 3])) == '[[0, 1], [2, 3]]'
+    assert repr(MultiInterval([0, 1], [2, 3]).norm()) == '[[0, 1], [2, 3]]'
 
 
 def test_init_double_include():
-    assert repr(MultiInterval([0, 2], [0, 1])) == '[[0, 2]]'
+    assert repr(MultiInterval([0, 2], [0, 1]).norm()) == '[[0, 2]]'
 
 
 def test_init_double_intersecting():
-    assert repr(MultiInterval([0, 1], [1, 3])) == '[[0, 3]]'
+
+    assert repr(MultiInterval([0, 1], [1, 3]).norm()) == '[[0, 3]]'
 
 
 def test_init_triple_intersect_include():
-    assert repr(MultiInterval([0, 1], [2, 3], [0, 4])) == '[[0, 4]]'
+    assert repr(MultiInterval([0, 1], [2, 3], [0, 4]).norm()) == '[[0, 4]]'
 
 
 def test_init_triple_intersect():
-    assert repr(MultiInterval([0, 2], [1, 3], [2, 4])) == '[[0, 4]]'
+    assert repr(MultiInterval([0, 2], [1, 3], [2, 4]).norm()) == '[[0, 4]]'
 
 
 def test_init_triple_dot():
-    assert repr(MultiInterval([0, 0], [1, 1], [2, 2])) == '[[0, 2]]'
+    assert repr(MultiInterval([0, 0], [1, 1], [2, 2]).norm()) == '[[0, 2]]'
 
 
 def test_init_triple_include():
-    assert repr(MultiInterval([0, 1], [0, 2], [0, 3])) == '[[0, 3]]'
+    assert repr(MultiInterval([0, 1], [0, 2], [0, 3]).norm()) == '[[0, 3]]'
 
 
 def test_init_triple_include1():
-    assert repr(MultiInterval([0, 1], [-1, 2], [-1, 100500])) == '[[-1, 100500]]'
+    assert repr(MultiInterval([0, 1], [-1, 2], [-1, 100500]).norm()) == '[[-1, 100500]]'
 
 
 def test_init():
-    assert repr(MultiInterval([1, 2], [9, 9], [100, 100], [200, 300])) == '[[1, 2], [9, 9], [100, 100], [200, 300]]'
+    assert repr(MultiInterval([1, 2], [9, 9], [100, 100], [200, 300]).norm()) == '[[1, 2], [9, 9], [100, 100], [200, 300]]'
 
 
 def test_and():
-    assert MultiInterval((MultiInterval([0, 2], [5, 10], [13, 23], [24, 25]) & MultiInterval([1, 5], [8, 12], [15, 24]))) == MultiInterval([1, 2], [5, 5], [8, 10], [15, 23], [24, 24])
+    assert MultiInterval(*(MultiInterval([0, 2], [5, 10], [13, 23], [24, 25]).norm() & MultiInterval([1, 5], [8, 12], [15, 24]).norm())).norm() == MultiInterval([1, 2], [5, 5], [8, 10], [15, 23], [24, 24]).norm()
 
 
 def test_and2():
-    assert MultiInterval(*(MultiInterval([0, 2], [3, 4], [5, 6], [7, 8]) & MultiInterval([2, 3], [4, 5], [6, 7], [8, 9]))) == MultiInterval([2, 8])
+    assert MultiInterval(*(MultiInterval([0, 2], [3, 4], [5, 6], [7, 8]).norm() & MultiInterval([2, 3], [4, 5], [6, 7], [8, 9]).norm())).norm() == MultiInterval([2, 8]).norm()
 
 
 def test_and3():
-    assert MultiInterval([0, 1], [2, 3], [4, 5], [6, 7]) & MultiInterval([8, 9], [10, 11], [12, 13], [14, 15]) == MultiInterval()
+    assert MultiInterval([0, 2], [5, 10], [13, 23], [24, 25]).norm() & MultiInterval([1, 5], [8, 12], [15, 23]).norm() == MultiInterval([1, 2], [5, 5], [8, 10], [15, 23]).norm()
 
 
 def test_and4():
+    assert MultiInterval([0, 1], [2, 3], [4, 5], [6, 7]) & MultiInterval([8, 9], [10, 11], [12, 13], [14, 15]) == MultiInterval()
+
+
+def test_and3():
     assert MultiInterval() & MultiInterval() == MultiInterval()
 
 
